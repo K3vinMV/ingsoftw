@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JuegoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
+//Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+//Juegos
+Route::resource('juegos', JuegoController::class);
 
 Route::middleware([
     'auth:sanctum',
