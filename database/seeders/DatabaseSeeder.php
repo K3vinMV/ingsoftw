@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
 
     $this->call([
         JuegoSeeder::class,
+        IntercambioSeeder::class,
         ]);
     }
 }

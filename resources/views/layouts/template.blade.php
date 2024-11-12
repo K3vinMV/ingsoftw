@@ -77,8 +77,8 @@
                 <div id="collapseIntercambios" class="collapse" aria-labelledby="headingIntercambios" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Opciones:</h6>
-                        <a class="collapse-item" href="#"><i class="fas fa-play-circle"></i> Intercambios Activos</a>
-                        <a class="collapse-item" href="#"><i class="fas fa-history"></i> Intercambios Hechos</a>
+                        <a class="collapse-item" href="{{ route('intercambios.index') }}"><i class="fas fa-play-circle"></i> Intercambios Activos</a>
+                        <a class="collapse-item" href="{{ route('intercambios.create') }}"><i class="fas fa-history"></i>Crear Intercambios</a>
                     </div>
                 </div>
             </li>

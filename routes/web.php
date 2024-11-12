@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IntercambioController;
 use App\Http\Controllers\JuegoController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 //Juegos
 Route::resource('juegos', JuegoController::class);
+
+Route::resource('intercambios', IntercambioController::class);
+Route::patch('intercambios/{intercambio}/estado/{estado}', [IntercambioController::class, 'updateStatus'])->name('intercambios.updateStatus');
 
 Route::middleware([
     'auth:sanctum',
