@@ -11,4 +11,9 @@ class Juego extends Model
     use HasFactory;
 
     protected $fillable = ['nombre', 'compañia', 'plataforma', 'categoria'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
