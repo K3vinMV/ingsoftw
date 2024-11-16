@@ -10,7 +10,7 @@ class Juego extends Model
     //
     use HasFactory;
 
-    protected $fillable = ['nombre', 'compañia', 'plataforma', 'categoria'];
+    protected $fillable = ['nombre', 'compañia', 'plataforma', 'categoria', 'imagen'];
 
     public function user()
     {

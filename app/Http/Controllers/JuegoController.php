@@ -25,7 +25,12 @@ class JuegoController extends Controller
             'compañia' => 'required',
             'plataforma' => 'required',
             'categoria' => 'required',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        
+        if ($request->hasFile('imagen')) {
+            $validatedData['imagen'] = $request->file('imagen')->store('juegos', 'public');
+        }
 
         Juego::create($request->all());
         return redirect()->route('juegos.index');
@@ -48,7 +53,12 @@ class JuegoController extends Controller
             'compañia' => 'required',
             'plataforma' => 'required',
             'categoria' => 'required',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $validatedData['imagen'] = $request->file('imagen')->store('juegos', 'public');
+        }
 
         $juego->update($request->all());
         return redirect()->route('juegos.index');

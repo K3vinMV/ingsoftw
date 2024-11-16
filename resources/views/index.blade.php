@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <!-- Título principal -->
     <div class="text-center mb-4">
-        <h1 class="display-4 text-primary">Bienvenido a Intercambio de Videojuegos</h1>
+        <h1 class="display-4 text-primary">Bienvenido a GameTeca</h1>
         <p class="lead text-muted">
             Esta es una plataforma exclusiva para estudiantes de la Universidad de Guadalajara, donde puedes intercambiar videojuegos de diferentes géneros y plataformas. Encuentra juegos de diversas compañías y disfruta de un amplio catálogo.
         </p>

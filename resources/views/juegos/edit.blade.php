@@ -4,7 +4,7 @@
 <div class="container">
     <h3 class="mb-4">Editar Juego: {{ $juego->nombre }}</h3>
 
-    <form action="{{ route('juegos.update', $juego->id) }}" method="POST">
+    <form action="{{ route('juegos.update', $juego->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -26,6 +26,11 @@
         <div class="mb-3">
             <label for="categoria" class="form-label">Categoría</label>
             <input type="text" class="form-control" id="categoria" name="categoria" value="{{ old('categoria', $juego->categoria) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="imagen">Imagen:</label>
+            <input type="file" name="imagen" id="imagen" class="form-control">
         </div>
 
         <div class="text-end">

@@ -10,6 +10,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
+                    <img src="{{ asset('storage/' . $juego->imagen) }}" alt="{{ $juego->nombre }}" class="img-fluid" style="max-height: 300px; object-fit: cover;">
                         <div class="col-md-4">
                             <strong>Compañía:</strong>
                         </div>

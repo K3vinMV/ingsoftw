@@ -17,6 +17,7 @@
                         <h5>{{ $juego->nombre }}</h5>
                     </div>
                     <div class="card-body">
+                    <img src="{{ asset('storage/' . $juego->imagen) }}" alt="{{ $juego->nombre }}" class="img-fluid">
                         <p><strong>Compañía:</strong> {{ $juego->compañia }}</p>
                         <p><strong>Plataforma:</strong> {{ $juego->plataforma }}</p>
                         <p><strong>Categoría:</strong> {{ $juego->categoria }}</p>

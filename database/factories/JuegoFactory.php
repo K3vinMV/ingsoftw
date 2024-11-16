@@ -18,6 +18,7 @@ class JuegoFactory extends Factory
             'plataforma' => $this->faker->randomElement(['PC', 'Xbox', 'PlayStation', 'Nintendo']),
             'categoria' => $this->faker->randomElement(['Acción', 'Aventura', 'Deportes', 'Estrategia']),
             'user_id' => User::factory(), // Asigna automáticamente un usuario existente
+            'imagen' => 'juegos/prueba.jpg',
         ];
     }
 }
