@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Juego;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class JuegoController extends Controller
@@ -11,6 +12,7 @@ class JuegoController extends Controller
     public function index()
     {
         $juegos = Juego::all();
+        $juegos = Juego::with('user')->get();
         return view('juegos.index', compact('juegos'));
     }
 
@@ -36,7 +38,8 @@ class JuegoController extends Controller
             // Guardar la imagen y obtener la ruta
             $imagePath = $request->file('imagen')->store('juegos', 'public');
         }
-    
+        
+        $data['user_id'] = Auth::id();
         // Crear el juego y guardar los datos en la base de datos
         Juego::create([
             'nombre' => $validated['nombre'],

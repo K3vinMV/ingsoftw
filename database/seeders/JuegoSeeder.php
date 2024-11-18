@@ -14,9 +14,13 @@ class JuegoSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        Juego::factory(25)->create([
-            'user_id' => User::all()->random()->id,
-        ]);
+        // Obtener todos los usuarios
+        $usuarios = User::all();
+
+        // Crear juegos para cada usuario de forma aleatoria
+        Juego::factory(25)->create()->each(function ($juego) use ($usuarios) {
+            $juego->user_id = $usuarios->random()->id;
+            $juego->save(); // Guardar la asociación del usuario con el juego
+        });
     }
 }

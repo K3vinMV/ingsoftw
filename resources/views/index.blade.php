@@ -16,11 +16,23 @@
         @foreach ($juegos as $juego)
             <div class="col">
                 <div class="card shadow-sm h-100">
-                    <!-- Imagen del juego (si está disponible) -->
-                    <!-- <img src="{{ asset($juego->imagen ?? 'images/default-game.jpg') }}" class="card-img-top" alt="{{ $juego->nombre }}"> -->
+                    <!-- Imagen del juego -->
+                    <img src="{{ asset('storage/' . $juego->imagen) }}" class="card-img-top" alt="Imagen de {{ $juego->nombre }}">
+                    
                     <div class="card-body d-flex flex-column">
+                        <!-- Título del juego -->
                         <h5 class="card-title text-primary">{{ $juego->nombre }}</h5>
+
+                        <!-- Breve descripción -->
                         <p class="card-text text-muted">{{ Str::limit($juego->descripcion, 100) }}</p>
+
+                        <!-- Usuario dueño del juego -->
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Subido por: {{ $juego->user->name ?? 'Desconocido' }}
+                            </small>
+                        </p>
+
                         <div class="mt-auto">
                             <a href="{{ route('juegos.show', $juego->id) }}" class="btn btn-info w-100">Ver detalles</a>
                         </div>
