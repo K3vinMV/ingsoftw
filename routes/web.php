@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntercambioController;
 use App\Http\Controllers\JuegoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Home
@@ -37,4 +38,8 @@ Route::middleware('auth')->group(function () {
     
     // Ruta para marcar un reporte como resuelto
     Route::patch('/reportes/{id}/resolver', [ReporteController::class, 'resolve'])->name('reportes.resolve');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/perfil', [UserController::class, 'show'])->name('perfil.show');
 });
