@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Juego;
+use Illuminate\Support\Facades\Storage;
 
 class JuegoController extends Controller
 {
@@ -20,20 +21,33 @@ class JuegoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Validar los datos del formulario
+        $validated = $request->validate([
             'nombre' => 'required',
             'compañia' => 'required',
             'plataforma' => 'required',
             'categoria' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validación de imagen
         ]);
-        
+    
+        // Guardar la imagen si se sube
+        $imagePath = null;
         if ($request->hasFile('imagen')) {
-            $validatedData['imagen'] = $request->file('imagen')->store('juegos', 'public');
+            // Guardar la imagen y obtener la ruta
+            $imagePath = $request->file('imagen')->store('juegos', 'public');
         }
-
-        Juego::create($request->all());
-        return redirect()->route('juegos.index');
+    
+        // Crear el juego y guardar los datos en la base de datos
+        Juego::create([
+            'nombre' => $validated['nombre'],
+            'compañia' => $validated['compañia'],
+            'plataforma' => $validated['plataforma'],
+            'categoria' => $validated['categoria'],
+            'imagen' => $imagePath, // Guardar la ruta de la imagen
+        ]);
+    
+        // Redirigir al listado de juegos con un mensaje de éxito
+        return redirect()->route('juegos.index')->with('success', 'Juego creado exitosamente!');
     }
 
     public function show(Juego $juego)
@@ -48,21 +62,42 @@ class JuegoController extends Controller
 
     public function update(Request $request, Juego $juego)
     {
-        $request->validate([
+        // Validar los datos del formulario
+        $validated = $request->validate([
             'nombre' => 'required',
             'compañia' => 'required',
             'plataforma' => 'required',
             'categoria' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validación de imagen
         ]);
 
+        // Si el usuario ha subido una nueva imagen, guardarla y eliminar la anterior si existe
         if ($request->hasFile('imagen')) {
-            $validatedData['imagen'] = $request->file('imagen')->store('juegos', 'public');
+            // Eliminar la imagen anterior del almacenamiento
+            if ($juego->imagen) {
+                Storage::disk('public')->delete($juego->imagen); // Eliminar la imagen anterior
+            }
+
+            // Guardar la nueva imagen y obtener la ruta
+            $imagePath = $request->file('imagen')->store('juegos', 'public');
+        } else {
+            // Si no se ha subido una nueva imagen, mantener la imagen actual
+            $imagePath = $juego->imagen;
         }
 
-        $juego->update($request->all());
-        return redirect()->route('juegos.index');
+        // Actualizar el juego con los nuevos datos
+        $juego->update([
+            'nombre' => $validated['nombre'],
+            'compañia' => $validated['compañia'],
+            'plataforma' => $validated['plataforma'],
+            'categoria' => $validated['categoria'],
+            'imagen' => $imagePath, // Guardar la ruta de la imagen
+        ]);
+
+        // Redirigir al listado de juegos con un mensaje de éxito
+        return redirect()->route('juegos.index')->with('success', 'Juego actualizado exitosamente!');
     }
+
 
     public function destroy(Juego $juego)
     {
