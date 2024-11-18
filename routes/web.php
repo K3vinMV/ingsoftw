@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntercambioController;
 use App\Http\Controllers\JuegoController;
+use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 
 //Home
@@ -22,4 +23,18 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    // Ruta para crear un reporte
+    Route::get('/reportes/create/{intercambio}', [ReporteController::class, 'create'])->name('reportes.create');
+    
+    // Ruta para almacenar el reporte
+    Route::post('/reportes', [ReporteController::class, 'store'])->name('reportes.store');
+    
+    // Ruta para ver los reportes activos
+    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    
+    // Ruta para marcar un reporte como resuelto
+    Route::patch('/reportes/{id}/resolver', [ReporteController::class, 'resolve'])->name('reportes.resolve');
 });

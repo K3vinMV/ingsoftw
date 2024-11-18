@@ -84,12 +84,23 @@
             </li>
 
 
-            <!-- Nav Item - Charts
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Reportes Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li> -->
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+                aria-expanded="true" aria-controls="collapseReportes">
+                    <i class="fas fa-fw fa-flag"></i>
+                    <span>Reportes</span>
+                </a>
+                <div id="collapseReportes" class="collapse" aria-labelledby="headingReportes" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opciones:</h6>
+                        <a class="collapse-item" href="{{ route('reportes.index') }}"><i class="fas fa-list"></i> Ver Reportes</a>
+                    </div>
+                </div>
+            </li>
 
 
             <!-- Divider -->

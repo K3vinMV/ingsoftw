@@ -44,6 +44,9 @@
                                     <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
                                 </form>
                             @endif
+
+                            <!-- Botón para reportar -->
+                            <a href="{{ route('reportes.create', $intercambio->id) }}" class="btn btn-warning btn-sm">Reportar</a>
                         </td>
                     </tr>
                 @endforeach
