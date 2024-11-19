@@ -9,10 +9,20 @@ use Illuminate\Support\Facades\Storage;
 
 class JuegoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $juegos = Juego::all();
-        $juegos = Juego::with('user')->get();
+        $search = $request->query('search');
+
+        // Filtramos los juegos por nombre si se proporciona un término de búsqueda
+        $juegos = Juego::with('user')
+            ->when($search, function ($query, $search) {
+                return $query->where('nombre', 'like', '%' . $search . '%')
+                    ->orWhere('compañia', 'like', '%' . $search . '%')
+                    ->orWhere('plataforma', 'like', '%' . $search . '%')
+                ->orWhere('categoria', 'like', '%' . $search . '%');
+            })
+            ->get();
+
         return view('juegos.index', compact('juegos'));
     }
 

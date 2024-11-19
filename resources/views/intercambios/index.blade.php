@@ -1,8 +1,15 @@
-@extends('layouts.template')
+@extends('layouts.template') 
 
 @section('content')
     <div class="container mt-4">
         <h1 class="mb-4">Intercambios</h1>
+
+        <!-- Mostrar mensaje de éxito si está presente -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <table class="table table-striped">
             <thead class="thead-dark">
@@ -32,21 +39,25 @@
                             @endif
                         </td>
                         <td>
-                            @if($intercambio->estado == 'pendiente')
-                                <form action="{{ route('intercambios.updateStatus', ['intercambio' => $intercambio->id, 'estado' => 'aceptado']) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
-                                </form>
-                                <form action="{{ route('intercambios.updateStatus', ['intercambio' => $intercambio->id, 'estado' => 'rechazado']) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
-                                </form>
-                            @endif
+                            <!-- Mostrar los botones solo si el usuario está involucrado en el intercambio -->
+                            @if(auth()->user()->id == $intercambio->ofertante_id || auth()->user()->id == $intercambio->receptor_id)
+                                
+                                @if($intercambio->estado == 'pendiente')
+                                    <form action="{{ route('intercambios.updateStatus', ['intercambio' => $intercambio->id, 'estado' => 'aceptado']) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-success btn-sm">Aceptar</button>
+                                    </form>
+                                    <form action="{{ route('intercambios.updateStatus', ['intercambio' => $intercambio->id, 'estado' => 'rechazado']) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
+                                    </form>
+                                @endif
 
-                            <!-- Botón para reportar -->
-                            <a href="{{ route('reportes.create', $intercambio->id) }}" class="btn btn-warning btn-sm">Reportar</a>
+                                <!-- Botón para reportar -->
+                                <a href="{{ route('reportes.create', $intercambio->id) }}" class="btn btn-warning btn-sm">Reportar</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

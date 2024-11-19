@@ -17,18 +17,23 @@
                         <h5>{{ $juego->nombre }}</h5>
                     </div>
                     <div class="card-body">
-                    <img src="{{ asset('storage/' . $juego->imagen) }}" alt="{{ $juego->nombre }}" class="img-fluid">
+                        <img src="{{ asset('storage/' . $juego->imagen) }}" alt="{{ $juego->nombre }}" class="img-fluid">
                         <p><strong>Compañía:</strong> {{ $juego->compañia }}</p>
                         <p><strong>Plataforma:</strong> {{ $juego->plataforma }}</p>
                         <p><strong>Categoría:</strong> {{ $juego->categoria }}</p>
                         <div class="text-end">
                             <a href="{{ route('juegos.show', $juego->id) }}" class="btn btn-info btn-sm">Ver</a>
-                            <a href="{{ route('juegos.edit', $juego->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('juegos.destroy', $juego->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
+
+                            <!-- Mostrar los botones de editar y eliminar solo si el usuario es el propietario del juego -->
+                            @if ($juego->user_id == auth()->user()->id)
+                                <a href="{{ route('juegos.edit', $juego->id) }}" class="btn btn-warning btn-sm">Editar</a>
+
+                                <form action="{{ route('juegos.destroy', $juego->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

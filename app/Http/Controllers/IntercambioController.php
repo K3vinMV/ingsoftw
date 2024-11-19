@@ -5,6 +5,7 @@ use App\Models\Intercambio;
 use App\Models\Juego;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IntercambioController extends Controller
 {
@@ -18,24 +19,32 @@ class IntercambioController extends Controller
     // Crear una nueva solicitud de intercambio
     public function create()
     {
-        $usuarios = User::all();
-        $juegos = Juego::all();
-        return view('intercambios.create', compact('usuarios', 'juegos'));
+        $usuarioAutenticado = Auth::user(); // Obtener al usuario autenticado
+        $juegos = Juego::where('user_id', $usuarioAutenticado->id)->get(); // Juegos del usuario autenticado
+        $todosLosJuegos = Juego::all(); // Todos los juegos disponibles para ser solicitados
+        $usuarios = User::all(); // Todos los usuarios disponibles para ser los receptores
+
+        return view('intercambios.create', compact('usuarioAutenticado', 'juegos', 'todosLosJuegos', 'usuarios'));
     }
 
     // Almacenar un intercambio en la base de datos
     public function store(Request $request)
     {
+        // Validación de datos
         $request->validate([
-            'ofertante_id' => 'required|exists:users,id',
-            'receptor_id' => 'required|exists:users,id',
+            'receptor_id' => 'required|exists:users,id|different:ofertante_id', // Asegurarse de que no se seleccione al mismo usuario
             'juego_ofrecido_id' => 'required|exists:juegos,id',
             'juego_solicitado_id' => 'required|exists:juegos,id',
         ]);
 
+        // Asignar el usuario autenticado al ofertante_id
+        $request->merge(['ofertante_id' => auth::id()]);
+
+        // Crear el intercambio
         Intercambio::create($request->all());
-        
-        return redirect()->route('intercambios.index');
+
+        // Redirigir a la lista de intercambios con un mensaje de éxito
+        return redirect()->route('intercambios.index')->with('success', 'Intercambio creado exitosamente');
     }
 
     // Aceptar o rechazar un intercambio

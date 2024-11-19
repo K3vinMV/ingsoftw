@@ -8,10 +8,9 @@
             @csrf
             <div class="form-group">
                 <label for="ofertante_id">Ofertante</label>
-                <select name="ofertante_id" id="ofertante_id" class="form-control">
-                    @foreach ($usuarios as $usuario)
-                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                    @endforeach
+                <!-- Solo se muestra el usuario autenticado y está deshabilitado -->
+                <select name="ofertante_id" id="ofertante_id" class="form-control" disabled>
+                    <option value="{{ $usuarioAutenticado->id }}" selected>{{ $usuarioAutenticado->name }}</option>
                 </select>
             </div>
 
@@ -19,7 +18,10 @@
                 <label for="receptor_id">Receptor</label>
                 <select name="receptor_id" id="receptor_id" class="form-control">
                     @foreach ($usuarios as $usuario)
-                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                        <!-- Excluye al usuario autenticado de ser receptor -->
+                        @if ($usuario->id !== $usuarioAutenticado->id)
+                            <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -36,16 +38,9 @@
             <div class="form-group">
                 <label for="juego_solicitado_id">Juego Solicitado</label>
                 <select name="juego_solicitado_id" id="juego_solicitado_id" class="form-control">
-                    @foreach ($juegos as $juego)
+                    @foreach ($todosLosJuegos as $juego)
                         <option value="{{ $juego->id }}">{{ $juego->nombre }}</option>
                     @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="estado">Estado</label>
-                <select name="estado" id="estado" class="form-control">
-                    <option value="pendiente">Pendiente</option>
                 </select>
             </div>
 
