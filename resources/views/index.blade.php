@@ -26,7 +26,7 @@
                         <!-- Breve descripción -->
                         <p class="card-text text-muted">{{ Str::limit($juego->descripcion, 100) }}</p>
 
-                        <!-- Usuario dueño del juego -->
+                        <!-- Usuario dueño del juego esta es una prueba desde el ipad hahaha-->
                         <p class="card-text">
                             <small class="text-muted">
                                 Subido por: {{ $juego->user->name ?? 'Desconocido' }}
